@@ -12,7 +12,24 @@ namespace Dunward.GraphView.Runtime
 
         private void Update()
         {
+            UpdateRectTransform();
             SetVerticesDirty();
+        }
+
+        private void UpdateRectTransform()
+        {
+            Vector2 startPos = startNode.anchoredPosition;
+            Vector2 endPos = endNode.anchoredPosition;
+
+            Vector2 min = Vector2.Min(startPos, endPos);
+            Vector2 max = Vector2.Max(startPos, endPos);
+
+            Vector2 size = max - min;
+
+            Vector2 center = (startPos + endPos) * 0.5f;
+
+            rectTransform.sizeDelta = size;
+            rectTransform.anchoredPosition = center;
         }
 
         protected override void OnPopulateMesh(VertexHelper vh)
@@ -35,7 +52,7 @@ namespace Dunward.GraphView.Runtime
             {
                 float t = i / (float)segmentCount;
                 Vector2 currentPoint = CalculateBezierPoint(t, startPos, startTangent, endPos, endTangent);
-                DrawLine(vh, prevPoint, currentPoint, width, color);
+                DrawLine(vh, prevPoint - rectTransform.anchoredPosition, currentPoint - rectTransform.anchoredPosition, width, color);
                 prevPoint = currentPoint;
             }
         }
@@ -68,7 +85,8 @@ namespace Dunward.GraphView.Runtime
             vh.AddUIVertexQuad(verts);
         }
     
-        public static (Vector2, Vector2) ResolveTangents(Vector2 from, Vector2 to, float rigidMlt) {
+        public static (Vector2, Vector2) ResolveTangents(Vector2 from, Vector2 to, float rigidMlt)
+        {
             var fromRect = new Rect(0, 0, 1, 1);
             var toRect = new Rect(0, 0, 1, 1);
             fromRect.center = from;
