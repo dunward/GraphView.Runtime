@@ -7,7 +7,6 @@ namespace Dunward.GraphView.Runtime
     {
         public RectTransform startNode;
         public RectTransform endNode;
-        public Color defaultColor = new Color(0.69f, 0.98f, 0.34f);
         public float defaultSize = 5f;
 
         private void Update()
@@ -40,7 +39,7 @@ namespace Dunward.GraphView.Runtime
             Vector2 endPos = endNode.anchoredPosition;
 
             var (x, y) = ResolveTangents(startPos, endPos, 0.8f);
-            DrawBezier(vh, startPos, endPos, x, y, defaultColor, defaultSize);
+            DrawBezier(vh, startPos, endPos, x, y, color, defaultSize);
         }
 
         private void DrawBezier(VertexHelper vh, Vector2 startPos, Vector2 endPos, Vector2 startTangent, Vector2 endTangent, Color color, float width)
