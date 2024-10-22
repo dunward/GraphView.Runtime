@@ -21,12 +21,10 @@ public class CullingTest : MonoBehaviour
         {
             if (CalculateVisibility())
             {
-                Debug.Log("UI Element is visible");
                 canvas.enabled = true;
             }
             else
             {
-                Debug.Log("UI Element is not visible");
                 canvas.enabled = false;
             }
             yield return null;
