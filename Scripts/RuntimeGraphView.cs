@@ -8,7 +8,11 @@ namespace Dunward.GraphView.Runtime
     {
 #region Unity Inspector Fields
         [SerializeField]
-        private GameObject viewer;
+        protected RectTransform viewTransform;
+
+        [Header("Prefabs")]
+        [SerializeField]
+        protected GameObject nodePrefab;
 #endregion
 
         private bool isDragViewer = false;
@@ -25,7 +29,7 @@ namespace Dunward.GraphView.Runtime
             {
                 isDragViewer = true;
                 lastMousePosition = Input.mousePosition;
-                lastViewerPosition = viewer.transform.localPosition;
+                lastViewerPosition = viewTransform.transform.localPosition;
             }
 
             if (Input.GetMouseButtonUp(2))
@@ -36,16 +40,16 @@ namespace Dunward.GraphView.Runtime
 
             if (isDragViewer)
             {
-                viewer.transform.localPosition = lastViewerPosition + (Vector2)Input.mousePosition - lastMousePosition;
+                viewTransform.transform.localPosition = lastViewerPosition + (Vector2)Input.mousePosition - lastMousePosition;
             }
 
             // Scroll condition
             if (Input.mouseScrollDelta.y != 0 && !isDragViewer)
             {
-                var scale = viewer.transform.localScale.x;
+                var scale = viewTransform.transform.localScale.x;
                 scale += Input.mouseScrollDelta.y > 0 ? zoomStep : -zoomStep;
                 scale = Mathf.Clamp(scale, minZoom, maxZoom);
-                viewer.transform.localScale = new Vector3(scale, scale, 1);
+                viewTransform.transform.localScale = new Vector3(scale, scale, 1);
             }
         }
     }
