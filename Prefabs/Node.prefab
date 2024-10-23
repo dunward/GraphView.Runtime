@@ -130,7 +130,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 400, y: 0}
+  m_SizeDelta: {x: 250, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4806876187777897553
 CanvasRenderer:
@@ -152,7 +152,6 @@ GameObject:
   - component: {fileID: 6538845778906484755}
   - component: {fileID: 8556014630315411184}
   - component: {fileID: 5999717079613901974}
-  - component: {fileID: 9013932466235534277}
   - component: {fileID: 4497248453164636995}
   - component: {fileID: 5117972917461245990}
   - component: {fileID: 7402133993250320817}
@@ -184,7 +183,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 188, y: 36}
-  m_SizeDelta: {x: 400, y: 0}
+  m_SizeDelta: {x: 250, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &6538845778906484755
 CanvasRenderer:
@@ -236,19 +235,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd617d433c78de745bc34798c62a853e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9013932466235534277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 447331314474540581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed46fefc18726274eb84338c4001681c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewPort: {fileID: 0}
 --- !u!223 &4497248453164636995
 Canvas:
   m_ObjectHideFlags: 0
@@ -382,8 +368,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 300.5, y: 0}
-  m_SizeDelta: {x: 199, y: 0}
+  m_AnchoredPosition: {x: 188, y: 0}
+  m_SizeDelta: {x: 124, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5731800630261176959
 CanvasRenderer:
@@ -674,8 +660,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 99.5, y: 0}
-  m_SizeDelta: {x: 199, y: 0}
+  m_AnchoredPosition: {x: 62, y: 0}
+  m_SizeDelta: {x: 124, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3429013277951889371
 CanvasRenderer:
@@ -792,8 +778,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 200, y: 0}
-  m_SizeDelta: {x: 400, y: 0}
+  m_AnchoredPosition: {x: 125, y: 0}
+  m_SizeDelta: {x: 250, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6259475755727794664
 CanvasRenderer:
@@ -957,7 +943,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 200, y: 0}
+  m_AnchoredPosition: {x: 125, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7756303438274216431
@@ -1175,7 +1161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3498613171012838487, guid: 5bd4512579b0f3740a75d1fbdfe28141, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 184
+      value: 109
       objectReference: {fileID: 0}
     - target: {fileID: 3498613171012838487, guid: 5bd4512579b0f3740a75d1fbdfe28141, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1273,7 +1259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7240605002743717247, guid: 7f8ab5b275a5728419ea515c177dbfc3, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 184
+      value: 109
       objectReference: {fileID: 0}
     - target: {fileID: 7240605002743717247, guid: 7f8ab5b275a5728419ea515c177dbfc3, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1309,7 +1295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7240605002743717247, guid: 7f8ab5b275a5728419ea515c177dbfc3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 184
+      value: 109
       objectReference: {fileID: 0}
     - target: {fileID: 7240605002743717247, guid: 7f8ab5b275a5728419ea515c177dbfc3, type: 3}
       propertyPath: m_AnchoredPosition.y
