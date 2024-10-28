@@ -10,7 +10,7 @@ namespace Dunward.GraphView.Runtime
         public RectTransform startNode;
         public RectTransform endNode;
         
-        public float defaultSize = 5f;
+        public float defaultSize = 7f;
 
         private void Update()
         {
@@ -47,31 +47,27 @@ namespace Dunward.GraphView.Runtime
             RectTransformUtility.ScreenPointToLocalPointInRectangle(test.transform as RectTransform, startPos, null, out startPos);
             RectTransformUtility.ScreenPointToLocalPointInRectangle(test.transform as RectTransform, endPos, null, out endPos);
 
-            var target = GetTangentTarget(startPos, endPos);
-            DrawBezier(vh, startPos, endPos, target, Vector2.zero, color, defaultSize);
+            DrawEdge(vh, startPos, endPos, 45f, color, defaultSize);
         }
 
-        private void DrawBezier(VertexHelper vh, Vector2 startPos, Vector2 endPos, Vector2 startTangent, Vector2 endTangent, Color color, float width)
+        private void DrawEdge(VertexHelper vh, Vector2 startPos, Vector2 endPos, float minimumLength, Color color, float width)
         {
-            const int segmentCount = 20;
-            Vector2 prevPoint = startPos;
+            // var diagonal 
+            var diagonalStart = startPos + new Vector2(minimumLength, 0);
+            DrawLine(vh, startPos - rectTransform.anchoredPosition, diagonalStart - rectTransform.anchoredPosition, width, color);
+            var diagonalEnd = endPos + new Vector2(-minimumLength, 0);
+            DrawLine(vh, endPos - rectTransform.anchoredPosition, diagonalEnd - rectTransform.anchoredPosition, width, color);
+            DrawLine(vh, diagonalStart - rectTransform.anchoredPosition, diagonalEnd - rectTransform.anchoredPosition, width, color);
+            // const int segmentCount = 20;
+            // Vector2 prevPoint = startPos;
 
-            for (int i = 1; i <= segmentCount; i++)
-            {
-                float t = i / (float)segmentCount;
-                Vector2 currentPoint = CalculateBezierPoint(t, startPos, startTangent, endPos, endTangent);
-                DrawLine(vh, prevPoint - rectTransform.anchoredPosition, currentPoint - rectTransform.anchoredPosition, width, color);
-                prevPoint = currentPoint;
-            }
-        }
-
-        private Vector2 CalculateBezierPoint(float t, Vector2 start, Vector2 startTangent, Vector2 end, Vector2 endTangent)
-        {
-            float u = 1 - t;
-            float tt = t * t;
-            float uu = u * u;
-
-            return uu * start + 2 * u * t * startTangent + tt * endTangent + tt * end;
+            // for (int i = 1; i <= segmentCount; i++)
+            // {
+            //     float t = i / (float)segmentCount;
+            //     Vector2 currentPoint = CalculateBezierPoint(t, startPos, startTangent, endPos, endTangent);
+            //     DrawLine(vh, prevPoint - rectTransform.anchoredPosition, currentPoint - rectTransform.anchoredPosition, width, color);
+            //     prevPoint = currentPoint;
+            // }
         }
 
         private void DrawLine(VertexHelper vh, Vector2 start, Vector2 end, float thickness, Color color)
@@ -91,11 +87,6 @@ namespace Dunward.GraphView.Runtime
             }
 
             vh.AddUIVertexQuad(verts);
-        }
-    
-        public Vector2 GetTangentTarget(Vector2 from, Vector2 to)
-        {
-            return new Vector2(from.x, to.y);
         }
     }
 }
