@@ -52,22 +52,11 @@ namespace Dunward.GraphView.Runtime
 
         private void DrawEdge(VertexHelper vh, Vector2 startPos, Vector2 endPos, float minimumLength, Color color, float width)
         {
-            // var diagonal 
             var diagonalStart = startPos + new Vector2(minimumLength, 0);
             DrawLine(vh, startPos - rectTransform.anchoredPosition, diagonalStart - rectTransform.anchoredPosition, width, color);
             var diagonalEnd = endPos + new Vector2(-minimumLength, 0);
             DrawLine(vh, endPos - rectTransform.anchoredPosition, diagonalEnd - rectTransform.anchoredPosition, width, color);
             DrawLine(vh, diagonalStart - rectTransform.anchoredPosition, diagonalEnd - rectTransform.anchoredPosition, width, color);
-            // const int segmentCount = 20;
-            // Vector2 prevPoint = startPos;
-
-            // for (int i = 1; i <= segmentCount; i++)
-            // {
-            //     float t = i / (float)segmentCount;
-            //     Vector2 currentPoint = CalculateBezierPoint(t, startPos, startTangent, endPos, endTangent);
-            //     DrawLine(vh, prevPoint - rectTransform.anchoredPosition, currentPoint - rectTransform.anchoredPosition, width, color);
-            //     prevPoint = currentPoint;
-            // }
         }
 
         private void DrawLine(VertexHelper vh, Vector2 start, Vector2 end, float thickness, Color color)
