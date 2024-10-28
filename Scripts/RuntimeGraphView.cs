@@ -14,6 +14,8 @@ namespace Dunward.GraphView.Runtime
 
         [Header("Prefabs")]
         [SerializeField]
+        private GameObject contextMenuPrefab;
+        [SerializeField]
         protected GameObject nodePrefab;
 #endregion
 
@@ -52,6 +54,18 @@ namespace Dunward.GraphView.Runtime
                 scale += Input.mouseScrollDelta.y > 0 ? zoomStep : -zoomStep;
                 scale = Mathf.Clamp(scale, minZoom, maxZoom);
                 zoomTransform.transform.localScale = new Vector3(scale, scale, 1);
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                transform as RectTransform,
+                Input.mousePosition,
+                Camera.main,
+                out Vector2 localPoint);
+
+                var contextMenu = Instantiate(contextMenuPrefab, transform);
+                contextMenu.transform.localPosition = localPoint;
             }
         }
     }
