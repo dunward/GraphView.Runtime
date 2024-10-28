@@ -64,7 +64,8 @@ namespace Dunward.GraphView.Runtime
                 Camera.main,
                 out Vector2 localPoint);
 
-                var contextMenu = Instantiate(contextMenuPrefab, transform);
+                var contextMenu = Instantiate(contextMenuPrefab, transform).GetComponent<ContextMenu>();
+                contextMenu.Initialize();
                 contextMenu.transform.localPosition = localPoint;
             }
         }
