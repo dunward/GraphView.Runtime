@@ -9,6 +9,8 @@ namespace Dunward.GraphView.Runtime
 #region Unity Inspector Fields
         [SerializeField]
         protected RectTransform viewTransform;
+        [SerializeField]
+        protected RectTransform zoomTransform;
 
         [Header("Prefabs")]
         [SerializeField]
@@ -46,10 +48,10 @@ namespace Dunward.GraphView.Runtime
             // Scroll condition
             if (Input.mouseScrollDelta.y != 0 && !isDragViewer)
             {
-                var scale = viewTransform.transform.localScale.x;
+                var scale = zoomTransform.transform.localScale.x;
                 scale += Input.mouseScrollDelta.y > 0 ? zoomStep : -zoomStep;
                 scale = Mathf.Clamp(scale, minZoom, maxZoom);
-                viewTransform.transform.localScale = new Vector3(scale, scale, 1);
+                zoomTransform.transform.localScale = new Vector3(scale, scale, 1);
             }
         }
     }
