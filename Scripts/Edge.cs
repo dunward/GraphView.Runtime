@@ -10,7 +10,7 @@ namespace Dunward.GraphView.Runtime
         public RectTransform startNode;
         public RectTransform endNode;
         
-        public float defaultSize = 7f;
+        public float defaultSize = 4f;
 
         private void Update()
         {
