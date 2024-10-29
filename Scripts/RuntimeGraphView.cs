@@ -8,15 +8,15 @@ namespace Dunward.GraphView.Runtime
     {
 #region Unity Inspector Fields
         [SerializeField]
-        protected RectTransform viewTransform;
+        private RectTransform viewTransform;
         [SerializeField]
-        protected RectTransform zoomTransform;
+        private RectTransform zoomTransform;
 
         [Header("Prefabs")]
         [SerializeField]
         private GameObject contextMenuPrefab;
         [SerializeField]
-        protected GameObject nodePrefab;
+        private GameObject nodePrefab;
 #endregion
 
         private bool isDragViewer = false;
@@ -26,6 +26,16 @@ namespace Dunward.GraphView.Runtime
         private float minZoom = 0.25f;
         private float maxZoom = 1f;
         private float zoomStep = 0.15f;
+
+        public void SetViewPosition(Vector2 position)
+        {
+            viewTransform.anchoredPosition = position;
+        }
+
+        public void SetViewScale(float scale)
+        {
+            zoomTransform.localScale = new Vector3(scale, scale, 1);
+        }
 
         public void Update()
         {
@@ -68,6 +78,12 @@ namespace Dunward.GraphView.Runtime
                 contextMenu.Initialize();
                 contextMenu.transform.localPosition = localPoint;
             }
+        }
+
+        protected Node AddNode()
+        {
+            var node = Instantiate(nodePrefab, viewTransform).GetComponent<Node>();
+            return node;
         }
     }
 }
