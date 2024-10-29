@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -33,6 +34,31 @@ namespace Dunward.GraphView.Runtime
         public void AddSeparator()
         {
             Instantiate(separatorPrefab, transform);
+        }
+
+        private void LateUpdate()
+        {
+            if (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
+                Destroy(gameObject);
+
+            if (Input.GetMouseButtonDown(1) && !IsPointerOverUIObject())
+                Destroy(gameObject);
+        }
+
+        private bool IsPointerOverUIObject()
+        {
+            PointerEventData eventData = new PointerEventData(EventSystem.current);
+            eventData.position = Input.mousePosition;
+            var results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, results);
+            foreach (var result in results)
+            {
+                if (result.gameObject == gameObject || result.gameObject.transform.IsChildOf(transform))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
