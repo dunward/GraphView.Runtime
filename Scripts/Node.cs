@@ -11,6 +11,11 @@ namespace Dunward.GraphView.Runtime
             get => transform as RectTransform;
         }
 
+        public void Initialize(RectTransform viewTransform)
+        {
+            GetComponent<CullingTest>().viewPort = viewTransform;
+        }
+
         public void OnDrag(PointerEventData eventData)
         {
             if (eventData.button != PointerEventData.InputButton.Left) return;
