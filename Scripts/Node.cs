@@ -4,11 +4,17 @@ using UnityEngine.UI;
 
 namespace Dunward.GraphView.Runtime
 {
-    public class Node : MonoBehaviour
+    public class Node : MonoBehaviour, IDragHandler
     {
         private RectTransform rectTransform
         {
             get => transform as RectTransform;
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (eventData.button != PointerEventData.InputButton.Left) return;
+            rectTransform.anchoredPosition += eventData.delta;
         }
 
         public void SetPosition(Vector2 position)
