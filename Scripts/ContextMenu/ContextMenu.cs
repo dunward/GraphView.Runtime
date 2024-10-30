@@ -36,6 +36,18 @@ namespace Dunward.GraphView.Runtime
             Instantiate(separatorPrefab, transform);
         }
 
+        public void AddContextMenuElement(IContextMenuElement element)
+        {
+            if (element is ContextMenuItem item)
+            {
+                AddMenuItem(item.actionName, item.action);
+            }
+            else if (element is ContextMenuSeparator)
+            {
+                AddSeparator();
+            }
+        }
+
         private void LateUpdate()
         {
             if (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
