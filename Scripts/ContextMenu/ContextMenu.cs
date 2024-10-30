@@ -18,13 +18,13 @@ namespace Dunward.GraphView.Runtime
 
         public void Initialize()
         {
-            AddMenu("Copy", () => Debug.Log("Copy"));
-            AddMenu("Paste", () => Debug.Log("Paste"));
+            AddMenuItem("Copy", () => Debug.Log("Copy"));
+            AddMenuItem("Paste", () => Debug.Log("Paste"));
             AddSeparator();
-            AddMenu("Delete", () => Debug.Log("Delete"));
+            AddMenuItem("Delete", () => Debug.Log("Delete"));
         }
 
-        public void AddMenu(string title, System.Action action)
+        public void AddMenuItem(string title, System.Action action)
         {
             var menu = Instantiate(menuPrefab, transform);
             menu.GetComponentInChildren<Text>().text = title;
