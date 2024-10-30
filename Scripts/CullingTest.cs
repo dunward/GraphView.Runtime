@@ -11,7 +11,7 @@ public class CullingTest : MonoBehaviour
     private void Awake()
     {
         uiElement = GetComponent<RectTransform>();
-        canvas = GetComponentInParent<Canvas>();
+        canvas = GetComponent<Canvas>();
         StartCoroutine(Run());
     }
 

@@ -9,11 +9,13 @@ namespace Dunward.GraphView.Runtime
 
         public RectTransform startNode;
         public RectTransform endNode;
-        
+
         public float defaultSize = 4f;
 
         private void Update()
         {
+            if (!canvas.enabled) return;
+            
             UpdateRectTransform();
             SetVerticesDirty();
         }
