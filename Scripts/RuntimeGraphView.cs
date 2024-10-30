@@ -22,7 +22,13 @@ namespace Dunward.GraphView.Runtime
         private GameObject nodePrefab;
 #endregion
 
-        private List<IContextMenuElement> contextElements = new List<IContextMenuElement>();
+        protected List<IContextMenuElement> menu = new List<IContextMenuElement>()
+        {
+            new ContextMenuItem("Copy", () => Debug.Log("Copy")),
+            new ContextMenuItem("Paste", () => Debug.Log("Paste")),
+            new ContextMenuSeparator(),
+            new ContextMenuItem("Delete", () => Debug.Log("Delete"))
+        };
 
         private float minZoom = 0.25f;
         private float maxZoom = 1f;
@@ -44,8 +50,7 @@ namespace Dunward.GraphView.Runtime
                 out Vector2 localPoint);
             
             var contextMenu = Instantiate(contextMenuPrefab, transform).GetComponent<ContextMenu>();
-            contextMenu.Initialize();
-            contextElements.ForEach(element => contextMenu.AddContextMenuElement(element));
+            menu.ForEach(element => contextMenu.AddContextMenuElement(element));
             contextMenu.transform.localPosition = localPoint;
         }
 
@@ -72,11 +77,6 @@ namespace Dunward.GraphView.Runtime
             var node = Instantiate(nodePrefab, viewTransform).GetComponent<Node>();
             node.Initialize(viewTransform.parent as RectTransform);
             return node;
-        }
-
-        public void AddContextMenuElement(IContextMenuElement element)
-        {
-            contextElements.Add(element);
         }
     }
 }

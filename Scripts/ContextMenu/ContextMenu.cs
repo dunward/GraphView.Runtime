@@ -16,14 +16,6 @@ namespace Dunward.GraphView.Runtime
         private GameObject separatorPrefab;
 #endregion
 
-        public void Initialize()
-        {
-            AddMenuItem("Copy", () => Debug.Log("Copy"));
-            AddMenuItem("Paste", () => Debug.Log("Paste"));
-            AddSeparator();
-            AddMenuItem("Delete", () => Debug.Log("Delete"));
-        }
-
         public void AddMenuItem(string title, System.Action action)
         {
             var menu = Instantiate(menuPrefab, transform);
