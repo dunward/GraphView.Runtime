@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace Dunward.GraphView.Runtime
 {
-    public class RuntimeGraphView : MonoBehaviour, IScrollHandler, IPointerClickHandler, IDragHandler
+    public class RuntimeGraphView : MonoBehaviour, IScrollHandler, IPointerClickHandler, IDragHandler, IPointerUpHandler
     {
 #region Unity Inspector Fields
         [SerializeField]
@@ -20,6 +20,8 @@ namespace Dunward.GraphView.Runtime
         private GameObject contextMenuPrefab;
         [SerializeField]
         private GameObject nodePrefab;
+        [SerializeField]
+        private GameObject selectionBoxPrefab;
 #endregion
 
         protected List<IContextMenuElement> menu = new List<IContextMenuElement>()
@@ -34,12 +36,17 @@ namespace Dunward.GraphView.Runtime
         private float maxZoom = 1f;
         private float zoomStep = 0.15f;
 
-        public RectTransform test1;
+        private GameObject _selectionBox;
 
         public void OnDrag(PointerEventData eventData)
         {
             if (eventData.button == PointerEventData.InputButton.Left)
             {
+                if (_selectionBox == null)
+                {
+                    _selectionBox = Instantiate(selectionBoxPrefab, transform);
+                }
+
                 var width = eventData.position.x - eventData.pressPosition.x;
                 var height = eventData.position.y - eventData.pressPosition.y;
 
@@ -57,11 +64,13 @@ namespace Dunward.GraphView.Runtime
                     y = eventData.position.y;
                     height = Mathf.Abs(height);
                 }
+
+                var rect = _selectionBox.transform as RectTransform;
                 
-                test1.anchoredPosition = new Vector2(x, y);
-                test1.sizeDelta = new Vector2(width, height);
+                rect.anchoredPosition = new Vector2(x, y);
+                rect.sizeDelta = new Vector2(width, height);
             }
-            
+
             if (eventData.button == PointerEventData.InputButton.Middle)
             {
                 viewTransform.anchoredPosition += eventData.delta;
@@ -81,6 +90,17 @@ namespace Dunward.GraphView.Runtime
                 var contextMenu = Instantiate(contextMenuPrefab, transform).GetComponent<ContextMenu>();
                 menu.ForEach(element => contextMenu.AddContextMenuElement(element));
                 contextMenu.transform.localPosition = localPoint;
+            }
+        }
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                if (_selectionBox != null)
+                {
+                    Destroy(_selectionBox);
+                    _selectionBox = null;
+                }
             }
         }
 
