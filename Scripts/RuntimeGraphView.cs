@@ -34,24 +34,54 @@ namespace Dunward.GraphView.Runtime
         private float maxZoom = 1f;
         private float zoomStep = 0.15f;
 
+        public RectTransform test1;
+
         public void OnDrag(PointerEventData eventData)
         {
-            if (eventData.button != PointerEventData.InputButton.Middle) return;
-            viewTransform.anchoredPosition += eventData.delta;
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                var width = eventData.position.x - eventData.pressPosition.x;
+                var height = eventData.position.y - eventData.pressPosition.y;
+
+                var x = eventData.pressPosition.x;
+                var y = eventData.pressPosition.y;
+
+                if (width < 0)
+                {
+                    x = eventData.position.x;
+                    width = Mathf.Abs(width);
+                }
+
+                if (height < 0)
+                {
+                    y = eventData.position.y;
+                    height = Mathf.Abs(height);
+                }
+                
+                test1.anchoredPosition = new Vector2(x, y);
+                test1.sizeDelta = new Vector2(width, height);
+            }
+            
+            if (eventData.button == PointerEventData.InputButton.Middle)
+            {
+                viewTransform.anchoredPosition += eventData.delta;
+            }
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (eventData.button != PointerEventData.InputButton.Right) return;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                transform as RectTransform,
-                eventData.position,
-                Camera.main,
-                out Vector2 localPoint);
-            
-            var contextMenu = Instantiate(contextMenuPrefab, transform).GetComponent<ContextMenu>();
-            menu.ForEach(element => contextMenu.AddContextMenuElement(element));
-            contextMenu.transform.localPosition = localPoint;
+            if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    transform as RectTransform,
+                    eventData.position,
+                    Camera.main,
+                    out Vector2 localPoint);
+                
+                var contextMenu = Instantiate(contextMenuPrefab, transform).GetComponent<ContextMenu>();
+                menu.ForEach(element => contextMenu.AddContextMenuElement(element));
+                contextMenu.transform.localPosition = localPoint;
+            }
         }
 
         public void OnScroll(PointerEventData eventData)
