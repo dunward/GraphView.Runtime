@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -23,6 +21,19 @@ namespace Dunward.GraphView.Runtime
         [SerializeField]
         private GameObject selectionBoxPrefab;
 #endregion
+
+        private List<Node> _nodes = new List<Node>();
+        private List<Edge> _edges = new List<Edge>();
+
+        public IReadOnlyList<Node> nodes
+        {
+            get => _nodes;
+        }
+
+        public IReadOnlyList<Edge> edges
+        {
+            get => _edges;
+        }
 
         protected List<IContextMenuElement> menu = new List<IContextMenuElement>()
         {
@@ -126,6 +137,7 @@ namespace Dunward.GraphView.Runtime
         {
             var node = Instantiate(nodePrefab, viewTransform).GetComponent<Node>();
             node.Initialize(viewTransform.parent as RectTransform);
+            _nodes.Add(node);
             return node;
         }
     }
