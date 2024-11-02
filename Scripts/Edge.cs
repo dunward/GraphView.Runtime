@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Dunward.GraphView.Runtime
 {
-    public class Edge : MaskableGraphic
+    public class Edge : MaskableGraphic, IGraphElement
     {
         public RectTransform view;
         public RectTransform test;

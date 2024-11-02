@@ -9,9 +9,9 @@ namespace Dunward.GraphView.Runtime
         [SerializeField]
         private GameObject hoverIndicator;
         [SerializeField]
-        private GameObject selectionIndicator;
+        public GameObject selectionIndicator;
 
-        private RectTransform rectTransform
+        public RectTransform rectTransform
         {
             get => transform as RectTransform;
         }

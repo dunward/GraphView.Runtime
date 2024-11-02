@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace Dunward.GraphView.Runtime
 {
-    public class RuntimeGraphView : MonoBehaviour, IScrollHandler, IPointerClickHandler, IDragHandler, IPointerUpHandler
+    public class RuntimeGraphView : MonoBehaviour, IScrollHandler, IPointerClickHandler, IDragHandler, IPointerDownHandler, IPointerUpHandler
     {
 #region Unity Inspector Fields
         [SerializeField]
@@ -35,7 +35,7 @@ namespace Dunward.GraphView.Runtime
             get => _edges;
         }
 
-        protected List<IGraphElement> selection = new List<IGraphElement>();
+        protected List<Node> selection = new List<Node>();
 
         protected List<IContextMenuElement> menu;
 
@@ -61,11 +61,6 @@ namespace Dunward.GraphView.Runtime
         {
             if (eventData.button == PointerEventData.InputButton.Left)
             {
-                if (_selectionBox == null)
-                {
-                    _selectionBox = Instantiate(selectionBoxPrefab, transform);
-                }
-
                 var width = eventData.position.x - eventData.pressPosition.x;
                 var height = eventData.pressPosition.y - eventData.position.y;
 
@@ -97,8 +92,7 @@ namespace Dunward.GraphView.Runtime
         }
 
         public void OnPointerClick(PointerEventData eventData)
-        {
-            if (eventData.button == PointerEventData.InputButton.Right)
+        {if (eventData.button == PointerEventData.InputButton.Right)
             {
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(
                     transform as RectTransform,
@@ -111,12 +105,59 @@ namespace Dunward.GraphView.Runtime
                 contextMenu.transform.localPosition = localPoint;
             }
         }
+        
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                _selectionBox = Instantiate(selectionBoxPrefab, transform);
+                
+                if (!Input.GetKey(KeyCode.LeftControl))
+                {
+                    selection.ForEach(node => node.selectionIndicator.SetActive(false));
+                    selection.Clear();
+                }
+            }
+        }
+
         public void OnPointerUp(PointerEventData eventData)
         {
             if (eventData.button == PointerEventData.InputButton.Left)
             {
                 if (_selectionBox != null)
                 {
+                    var rect = _selectionBox.transform as RectTransform;
+
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                        viewTransform,
+                        rect.position,
+                        null,
+                        out Vector2 localPoint);
+
+                    var selectionBoxLeftTop = localPoint;
+                    var selectionBoxRightTop = localPoint + new Vector2(rect.sizeDelta.x, 0);
+                    var selectionBoxLeftBottom = localPoint - new Vector2(0, rect.sizeDelta.y);
+                    var selectionBoxRightBottom = localPoint + new Vector2(rect.sizeDelta.x, -rect.sizeDelta.y);
+
+                    var selectionArea = (selectionBoxLeftTop, selectionBoxRightTop, selectionBoxLeftBottom, selectionBoxRightBottom);
+                    
+                    foreach (var node in _nodes)
+                    {
+                        var nodeLeftTop = node.rectTransform.anchoredPosition;
+                        var nodeRightTop = node.rectTransform.anchoredPosition + new Vector2(node.rectTransform.sizeDelta.x, 0);
+                        var nodeLeftBottom = node.rectTransform.anchoredPosition - new Vector2(0, node.rectTransform.sizeDelta.y);
+                        var nodeRightBottom = node.rectTransform.anchoredPosition + new Vector2(node.rectTransform.sizeDelta.x, -node.rectTransform.sizeDelta.y);
+
+                        if (IsPointInArea(selectionArea, nodeLeftTop) ||
+                            IsPointInArea(selectionArea, nodeRightTop) ||
+                            IsPointInArea(selectionArea, nodeLeftBottom) ||
+                            IsPointInArea(selectionArea, nodeRightBottom))
+                        {
+                            node.selectionIndicator.SetActive(true);
+                            selection.Add(node);
+                        }
+                    }
+
                     Destroy(_selectionBox);
                     _selectionBox = null;
                 }
@@ -163,6 +204,12 @@ namespace Dunward.GraphView.Runtime
         protected virtual bool IsPasteAvailable()
         {
             return GUIUtility.systemCopyBuffer.StartsWith("application/vnd.unity.graphview.elements");
+        }
+
+        private bool IsPointInArea((Vector2 leftTop, Vector2 rightTop, Vector2 leftBottom, Vector2 rightBottom)area, Vector2 position)
+        {
+            return area.leftTop.x < position.x && area.leftTop.y > position.y &&
+                   area.rightBottom.x > position.x && area.rightBottom.y < position.y;
         }
     }
 }
