@@ -4,22 +4,48 @@ using UnityEngine.UI;
 
 namespace Dunward.GraphView.Runtime
 {
-    public class Node : MonoBehaviour, IDragHandler
+    public class Node : MonoBehaviour, IGraphElement, IDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
+        [SerializeField]
+        private GameObject hoverIndicator;
+        [SerializeField]
+        private GameObject selectionIndicator;
+
         private RectTransform rectTransform
         {
             get => transform as RectTransform;
         }
 
-        public void Initialize(RectTransform viewTransform)
+        private RuntimeGraphView graphView;
+
+        public void Initialize(RuntimeGraphView graphView)
         {
-            GetComponent<CullingTest>().viewPort = viewTransform;
+            this.graphView = graphView;
+            GetComponent<CullingTest>().viewPort = graphView.transform as RectTransform;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
             if (eventData.button != PointerEventData.InputButton.Left) return;
             rectTransform.anchoredPosition += eventData.delta;
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            hoverIndicator.SetActive(true);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            hoverIndicator.SetActive(false);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                // Create Node Context Menu
+            }
         }
 
         public void SetPosition(Vector2 position)
