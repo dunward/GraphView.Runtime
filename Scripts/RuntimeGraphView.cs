@@ -67,7 +67,7 @@ namespace Dunward.GraphView.Runtime
                 }
 
                 var width = eventData.position.x - eventData.pressPosition.x;
-                var height = eventData.position.y - eventData.pressPosition.y;
+                var height = eventData.pressPosition.y - eventData.position.y;
 
                 var x = eventData.pressPosition.x;
                 var y = eventData.pressPosition.y;
