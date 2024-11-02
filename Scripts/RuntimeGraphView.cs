@@ -35,13 +35,9 @@ namespace Dunward.GraphView.Runtime
             get => _edges;
         }
 
-        protected List<IContextMenuElement> menu = new List<IContextMenuElement>()
-        {
-            new ContextMenuItem("Copy", () => Debug.Log("Copy")),
-            new ContextMenuItem("Paste", () => Debug.Log("Paste")),
-            new ContextMenuSeparator(),
-            new ContextMenuItem("Delete", () => Debug.Log("Delete"))
-        };
+        protected List<IGraphElement> selection = new List<IGraphElement>();
+
+        protected List<IContextMenuElement> menu;
 
         private float minZoom = 0.25f;
         private float maxZoom = 1f;
@@ -49,6 +45,18 @@ namespace Dunward.GraphView.Runtime
 
         private GameObject _selectionBox;
 
+        protected virtual void Awake()
+        {
+            menu = new List<IContextMenuElement>()
+            {
+                new ContextMenuItem("Copy", () => Debug.Log("Copy"), () => IsCopyAvailable()),
+                new ContextMenuItem("Paste", () => Debug.Log("Paste"), () => IsPasteAvailable()),
+                new ContextMenuSeparator(),
+                new ContextMenuItem("Delete", () => Debug.Log("Delete"), () => IsDeleteAvailable())
+            };
+        }
+
+#region Inputs
         public void OnDrag(PointerEventData eventData)
         {
             if (eventData.button == PointerEventData.InputButton.Left)
@@ -122,6 +130,7 @@ namespace Dunward.GraphView.Runtime
             scale = Mathf.Clamp(scale, minZoom, maxZoom);
             zoomTransform.transform.localScale = new Vector3(scale, scale, 1);
         }
+#endregion
 
         public void SetViewPosition(Vector2 position)
         {
@@ -139,6 +148,21 @@ namespace Dunward.GraphView.Runtime
             node.Initialize(viewTransform.parent as RectTransform);
             _nodes.Add(node);
             return node;
+        }
+
+        private bool IsCopyAvailable()
+        {
+            return selection.Count > 0;
+        }
+
+        private bool IsDeleteAvailable()
+        {
+            return selection.Count > 0;
+        }
+
+        protected virtual bool IsPasteAvailable()
+        {
+            return GUIUtility.systemCopyBuffer.StartsWith("application/vnd.unity.graphview.elements");
         }
     }
 }

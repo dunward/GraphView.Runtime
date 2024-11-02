@@ -16,11 +16,13 @@ namespace Dunward.GraphView.Runtime
         private GameObject separatorPrefab;
 #endregion
 
-        public void AddMenuItem(string title, System.Action action)
+        public void AddMenuItem(string title, System.Action action, bool interactable)
         {
             var menu = Instantiate(menuPrefab, transform);
             menu.GetComponentInChildren<Text>().text = title;
+            menu.GetComponentInChildren<Text>().color = interactable ? Color.black : Color.gray;
             menu.GetComponent<Button>().onClick.AddListener(() => action());
+            menu.GetComponent<Button>().interactable = interactable;
         }
 
         public void AddSeparator()
@@ -32,7 +34,7 @@ namespace Dunward.GraphView.Runtime
         {
             if (element is ContextMenuItem item)
             {
-                AddMenuItem(item.actionName, item.action);
+                AddMenuItem(item.actionName, item.action, item.predicate.Invoke());
             }
             else if (element is ContextMenuSeparator)
             {
