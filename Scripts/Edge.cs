@@ -40,11 +40,8 @@ namespace Dunward.GraphView.Runtime
             startPos += new Vector2(baseLineLength, 0);
             endPos -= new Vector2(baseLineLength, 0);
             
-            Debug.Log($"before diagonalStart {startPos} diagonalEnd {endPos}");
-
             float distance = DistancePointToLine(mousePosition, startPos, endPos);
             isHovered = distance <= hoverThreshold;
-            Debug.Log($"diagonalStart {startPos} diagonalEnd {endPos} - mouse : {mousePosition} - distance {distance}");
         }
 
         private float DistancePointToLine(Vector2 point, Vector2 lineStart, Vector2 lineEnd)
