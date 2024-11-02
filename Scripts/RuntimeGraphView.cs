@@ -145,7 +145,7 @@ namespace Dunward.GraphView.Runtime
         public Node AddNode()
         {
             var node = Instantiate(nodePrefab, viewTransform).GetComponent<Node>();
-            node.Initialize(viewTransform.parent as RectTransform);
+            node.Initialize(transform as RectTransform);
             _nodes.Add(node);
             return node;
         }
