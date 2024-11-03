@@ -79,17 +79,17 @@ namespace Dunward.GraphView.Runtime
             Debug.Log($"Test {pointerData.button}");
         }
 
-        public void CreatePort(Port.Direction direction, Port.Capacity capacity)
+        public void AddPort(Port.Direction direction, Port.Capacity capacity)
         {
             if (direction == Port.Direction.Input)
             {
-                var port = Instantiate(inputPortPrefab, transform).GetComponent<Port>();
+                var port = Instantiate(inputPortPrefab, inputPortContainer).GetComponentInChildren<Port>();
                 port.Initialize(direction, capacity);
                 inputPorts.Add(port);
             }
             else
             {
-                var port = Instantiate(outputPortPrefab, transform).GetComponent<Port>();
+                var port = Instantiate(outputPortPrefab, outputPortContainer).GetComponentInChildren<Port>();
                 port.Initialize(direction, capacity);
                 outputPorts.Add(port);
             }

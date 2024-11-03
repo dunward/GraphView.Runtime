@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Dunward.GraphView.Runtime
 {
-    public class Port : MonoBehaviour
+    public class Port : MonoBehaviour, IPointerClickHandler, IDragHandler
     {
         public enum Direction
         {
@@ -23,6 +24,16 @@ namespace Dunward.GraphView.Runtime
         {
             this.direction = direction;
             this.capacity = capacity;
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            Debug.LogError($"Port Click");
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            Debug.LogError($"Port Drag");
         }
     }
 }

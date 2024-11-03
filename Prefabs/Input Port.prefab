@@ -49,7 +49,6 @@ GameObject:
   - component: {fileID: 6840599978240208504}
   - component: {fileID: 3840970009155198141}
   - component: {fileID: 6327979177109431716}
-  - component: {fileID: 2719515327087726688}
   m_Layer: 5
   m_Name: Input Port
   m_TagString: Untagged
@@ -119,18 +118,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &2719515327087726688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2173008961388826826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcfc110fcb48e034cac52c04e3d096f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2403752948795292570
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,6 +208,7 @@ GameObject:
   - component: {fileID: 2010149115731321806}
   - component: {fileID: 8286691294269794387}
   - component: {fileID: 9101617446351509900}
+  - component: {fileID: 8283408387617955709}
   m_Layer: 5
   m_Name: Port
   m_TagString: Untagged
@@ -285,3 +273,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8283408387617955709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5753661498973104979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcfc110fcb48e034cac52c04e3d096f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
