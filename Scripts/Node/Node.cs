@@ -26,6 +26,7 @@ namespace Dunward.GraphView.Runtime
         private GameObject outputPortPrefab;
 #endregion
 
+        private RuntimeGraphView graphView;
         private NodeModel model;
 
         public RectTransform rectTransform
@@ -33,7 +34,6 @@ namespace Dunward.GraphView.Runtime
             get => transform as RectTransform;
         }
 
-        private RuntimeGraphView graphView;
         private List<Port> inputPorts = new List<Port>();
         private List<Port> outputPorts = new List<Port>();
 
@@ -41,6 +41,7 @@ namespace Dunward.GraphView.Runtime
         {
             this.graphView = graphView;
             model = Activator.CreateInstance<T>();
+            model.Initialize(this);
             GetComponent<CullingTest>().viewPort = graphView.transform as RectTransform;
         }
 
