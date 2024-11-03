@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -6,10 +7,23 @@ namespace Dunward.GraphView.Runtime
 {
     public class Node : MonoBehaviour, IGraphElement, IDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
+#region Unity Inspector Fields
         [SerializeField]
         private GameObject hoverIndicator;
         [SerializeField]
         public GameObject selectionIndicator;
+
+        [SerializeField]
+        private Transform inputPortContainer;
+        [SerializeField]
+        private Transform outputPortContainer;
+
+        [Header("Prefabs")]
+        [SerializeField]
+        private GameObject inputPortPrefab;
+        [SerializeField]
+        private GameObject outputPortPrefab;
+#endregion
 
         public RectTransform rectTransform
         {
@@ -17,6 +31,8 @@ namespace Dunward.GraphView.Runtime
         }
 
         private RuntimeGraphView graphView;
+        private List<Port> inputPorts = new List<Port>();
+        private List<Port> outputPorts = new List<Port>();
 
         public void Initialize(RuntimeGraphView graphView)
         {
@@ -57,6 +73,22 @@ namespace Dunward.GraphView.Runtime
         {
             var pointerData = eventData as PointerEventData;
             Debug.Log($"Test {pointerData.button}");
+        }
+
+        public void CreatePort(Port.Direction direction, Port.Capacity capacity)
+        {
+            if (direction == Port.Direction.Input)
+            {
+                var port = Instantiate(inputPortPrefab, transform).GetComponent<Port>();
+                port.Initialize(direction, capacity);
+                inputPorts.Add(port);
+            }
+            else
+            {
+                var port = Instantiate(outputPortPrefab, transform).GetComponent<Port>();
+                port.Initialize(direction, capacity);
+                outputPorts.Add(port);
+            }
         }
     }
 }
