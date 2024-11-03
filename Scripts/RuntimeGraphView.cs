@@ -183,10 +183,10 @@ namespace Dunward.GraphView.Runtime
             zoomTransform.localScale = new Vector3(scale, scale, 1);
         }
 
-        public Node AddNode()
+        public Node AddNode<T>() where T : NodeModel
         {
             var node = Instantiate(nodePrefab, viewTransform).GetComponent<Node>();
-            node.Initialize(this);
+            node.Initialize<T>(this);
             _nodes.Add(node);
             return node;
         }

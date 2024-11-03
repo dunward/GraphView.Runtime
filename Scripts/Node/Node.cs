@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,6 +26,8 @@ namespace Dunward.GraphView.Runtime
         private GameObject outputPortPrefab;
 #endregion
 
+        private NodeModel model;
+
         public RectTransform rectTransform
         {
             get => transform as RectTransform;
@@ -34,9 +37,10 @@ namespace Dunward.GraphView.Runtime
         private List<Port> inputPorts = new List<Port>();
         private List<Port> outputPorts = new List<Port>();
 
-        public void Initialize(RuntimeGraphView graphView)
+        public void Initialize<T>(RuntimeGraphView graphView) where T : NodeModel
         {
             this.graphView = graphView;
+            model = Activator.CreateInstance<T>();
             GetComponent<CullingTest>().viewPort = graphView.transform as RectTransform;
         }
 
