@@ -35,6 +35,11 @@ namespace Dunward.GraphView.Runtime
             get => _edges;
         }
 
+        public float zoomFactor
+        {
+            get => zoomTransform.localScale.x;
+        }
+
         protected List<Node> selection = new List<Node>();
 
         protected List<IContextMenuElement> menu;

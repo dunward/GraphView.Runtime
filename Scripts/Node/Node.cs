@@ -48,7 +48,8 @@ namespace Dunward.GraphView.Runtime
         public void OnDrag(PointerEventData eventData)
         {
             if (eventData.button != PointerEventData.InputButton.Left) return;
-            rectTransform.anchoredPosition += eventData.delta;
+            
+            rectTransform.anchoredPosition += eventData.delta / graphView.zoomFactor;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
