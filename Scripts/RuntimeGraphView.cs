@@ -13,11 +13,18 @@ namespace Dunward.GraphView.Runtime
         [SerializeField]
         private RectTransform zoomTransform;
 
+        [SerializeField]
+        private Transform nodeContainer;
+        [SerializeField]
+        private Transform edgeContainer;
+
         [Header("Prefabs")]
         [SerializeField]
-        private GameObject contextMenuPrefab;
-        [SerializeField]
         private GameObject nodePrefab;
+        [SerializeField]
+        private GameObject edgePrefab;
+        [SerializeField]
+        private GameObject contextMenuPrefab;
         [SerializeField]
         private GameObject selectionBoxPrefab;
 #endregion
