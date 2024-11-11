@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Dunward.GraphView.Runtime
 {
-    public class Edge : MaskableGraphic, IGraphElement
+    public class Edge : MaskableGraphic, IGraphElement, IDragHandler
     {
         public RectTransform view;
 
@@ -25,24 +26,18 @@ namespace Dunward.GraphView.Runtime
             endNode = end;
         }
 
+        public void OnDrag(PointerEventData eventData)
+        {
+            Debug.LogError($"Edge dragging - isLeft {isLeft}");
+        }
+
         private void Update()
         {
             if (!canvas.enabled) return;
             
             DetectHover();
-            HandleInput();
             UpdateRectTransform();
             SetVerticesDirty();
-        }
-        
-        private void HandleInput()
-        {
-            if (!isHovered) return;
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                Debug.LogError($"isLeft : {isLeft}");
-            }
         }
 
         private void DetectHover()
