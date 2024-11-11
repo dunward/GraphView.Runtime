@@ -6,7 +6,6 @@ namespace Dunward.GraphView.Runtime
     public class Edge : MaskableGraphic, IGraphElement
     {
         public RectTransform view;
-        public RectTransform test;
 
         public RectTransform startNode;
         public RectTransform endNode;
@@ -17,31 +16,53 @@ namespace Dunward.GraphView.Runtime
 
         private float baseLineLength = 45f;
         private bool isHovered;
+        private bool isLeft;
+
+        public void Initialize(RectTransform view, RectTransform start, RectTransform end)
+        {
+            this.view = view;
+            startNode = start;
+            endNode = end;
+        }
 
         private void Update()
         {
             if (!canvas.enabled) return;
             
             DetectHover();
+            HandleInput();
             UpdateRectTransform();
             SetVerticesDirty();
+        }
+        
+        private void HandleInput()
+        {
+            if (!isHovered) return;
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Debug.LogError($"isLeft : {isLeft}");
+            }
         }
 
         private void DetectHover()
         {
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(test, Input.mousePosition, Camera.main, out var mousePosition);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(view, Input.mousePosition, Camera.main, out var mousePosition);
 
             Vector2 startPos = startNode.TransformPoint(startNode.anchoredPosition);
             Vector2 endPos = endNode.TransformPoint(endNode.anchoredPosition);
 
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(test, startPos, null, out startPos);
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(test, endPos, null, out endPos);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(view, startPos, null, out startPos);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(view, endPos, null, out endPos);
 
             startPos += new Vector2(baseLineLength, 0);
             endPos -= new Vector2(baseLineLength, 0);
             
             float distance = DistancePointToLine(mousePosition, startPos, endPos);
+
             isHovered = distance <= hoverThreshold;
+            raycastTarget = isHovered;
+            isLeft = mousePosition.x < (startPos.x + endPos.x) / 2;
         }
 
         private float DistancePointToLine(Vector2 point, Vector2 lineStart, Vector2 lineEnd)
@@ -65,8 +86,8 @@ namespace Dunward.GraphView.Runtime
             Vector2 startPos = startNode.TransformPoint(startNode.anchoredPosition);
             Vector2 endPos = endNode.TransformPoint(endNode.anchoredPosition);
             
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(test, startPos, null, out startPos);
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(test, endPos, null, out endPos);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(view, startPos, null, out startPos);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(view, endPos, null, out endPos);
 
             Vector2 min = Vector2.Min(startPos, endPos);
             Vector2 max = Vector2.Max(startPos, endPos);
@@ -86,8 +107,8 @@ namespace Dunward.GraphView.Runtime
             Vector2 startPos = startNode.TransformPoint(startNode.anchoredPosition);
             Vector2 endPos = endNode.TransformPoint(endNode.anchoredPosition);
             
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(test, startPos, null, out startPos);
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(test, endPos, null, out endPos);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(view, startPos, null, out startPos);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(view, endPos, null, out endPos);
 
             DrawEdge(vh, startPos, endPos, color, isHovered ? hoverSize : defaultSize);
         }
